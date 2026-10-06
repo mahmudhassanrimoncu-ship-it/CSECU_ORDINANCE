@@ -1,7 +1,7 @@
 {
-  "name": "my-site",
+  "name": "csecu-ordinance",
   "compatibility_date": "2026-10-06",
   "assets": {
-    "directory": ""
+    "directory": "./public"
   }
 }

@@ -1,0 +1,511 @@
+<title>CU CSE Rulebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: mission-briefing sheet. Black field, hairline-ruled sections, uppercase condensed headings,
+   monochrome data with two signal colours (amber = cap, red = fail). Deliberately single dark theme. */
+:root{
+  color-scheme:dark;
+  --bg:#000000; --panel:#0A0B0D; --ink:#F2F3F5; --muted:#8E939C; --dim:#4A4E56; --line:#24272D;
+  --white:#FFFFFF; --bar:#D7DAE0; --barlo:#5B606A;
+  --amber:#F5A623; --red:#E5484D; --green:#46C287;
+  --head:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;font-weight:400;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto}
+h1,h2,h3{font-family:var(--head);text-transform:uppercase;font-weight:600;margin:0;line-height:1.05;text-wrap:balance}
+h2{font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:.06em}
+h3{font-size:1.05rem;letter-spacing:.1em;color:var(--white)}
+p{margin:0}
+b,strong{font-weight:600;color:var(--white)}
+.label{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.small{font-size:.9rem;color:var(--muted)}
+.amber{color:var(--amber)} .red{color:var(--red)} .green{color:var(--green)}
+
+/* hero */
+.hero{position:relative;padding-block:72px 48px;border-bottom:1px solid var(--line);overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 78% 14%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 64% 58%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 30% 70%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 90% 80%,#fff 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 45% 30%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 5% 88%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 56% 8%,#fff 50%,transparent 51%);}
+.hero>*{position:relative}
+.hero h1{font-size:clamp(2.4rem,8vw,5rem);font-weight:700;letter-spacing:.04em;margin-block:14px 18px}
+.hero h1 span{display:block;color:var(--muted);font-weight:500}
+.hero p{max-width:62ch;color:var(--muted)}
+.telemetry{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:40px}
+.telemetry div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 18px;display:grid;gap:4px}
+.telemetry b{font-family:var(--head);font-size:2.4rem;font-weight:600;line-height:1}
+.nav{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:28px}
+.nav a{font-family:var(--head);text-transform:uppercase;letter-spacing:.12em;font-size:.9rem;text-decoration:none;color:var(--ink);padding-bottom:2px;border-bottom:1px solid transparent}
+.nav a:hover,.nav a:focus-visible{border-bottom-color:var(--white);outline:none}
+
+/* sections */
+section{padding-block:56px;border-bottom:1px solid var(--line);display:grid;gap:28px}
+.sec-head{display:grid;gap:8px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:28px 40px}
+.cols>*{min-width:0}
+.stackv{display:grid;gap:14px;align-content:start}
+.list{list-style:none;margin:0;padding:0;display:grid}
+.list li{padding:10px 0 10px 22px;border-top:1px solid var(--line);position:relative}
+.list li:last-child{border-bottom:1px solid var(--line)}
+.list li::before{content:"";position:absolute;left:2px;top:19px;width:8px;height:2px;background:var(--muted)}
+.list.ok li::before{background:var(--green)}
+.list.no li::before{background:var(--red)}
+.callout{border:1px solid var(--amber);padding:14px 16px;font-size:.92rem;color:var(--ink)}
+.callout .label{color:var(--amber);display:block;margin-bottom:4px}
+.formula{font-family:var(--mono);font-size:.88rem;border:1px solid var(--line);background:var(--panel);padding:14px 16px;line-height:1.8;overflow-x:auto;white-space:nowrap}
+
+/* grade chart */
+.chart-scroll{overflow-x:auto;padding-bottom:4px}
+.gchart{min-width:600px;display:grid;gap:10px}
+.gplot{position:relative;height:220px;border-bottom:1px solid var(--dim);display:grid;grid-template-columns:repeat(10,1fr);gap:10px;align-items:end}
+.gplot .grid{position:absolute;left:0;right:0;border-top:1px solid var(--line)}
+.gbar{position:relative;background:var(--bar);z-index:1}
+.gbar.capped{background:var(--amber)}
+.gbar.fail{background:var(--red);height:3px}
+.gbar .v{position:absolute;bottom:100%;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--ink);padding-bottom:4px}
+.capline{position:absolute;left:0;right:0;border-top:1px dashed var(--amber);z-index:2;pointer-events:none}
+.gaxis{display:grid;grid-template-columns:repeat(10,1fr);gap:10px;text-align:center}
+.gaxis b{display:block;font-family:var(--head);font-size:1.4rem;font-weight:600;line-height:1.1}
+.gaxis span{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.keyrow{display:flex;flex-wrap:wrap;gap:8px 24px}
+.key{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+.key i{width:14px;height:3px;display:inline-block}
+
+/* split bars */
+.split{display:grid;gap:10px}
+.split .bar{display:flex;height:10px;gap:3px}
+.split .bar div{height:100%}
+.split .parts{display:grid;gap:4px}
+.split .part{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:baseline;font-size:.92rem}
+.split .part i{width:10px;height:10px;display:inline-block;transform:translateY(1px)}
+.split .part .num{color:var(--white)}
+.c1{background:var(--white)} .c2{background:var(--muted)} .c3{background:var(--dim)}
+
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:9px 10px 9px 0;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.r,th.r{text-align:right;padding-right:0}
+.tbl{overflow-x:auto}
+
+/* attendance */
+.gauge{display:grid;gap:8px}
+.gauge .bar{display:flex;height:10px;gap:3px}
+.gauge .scale{display:flex;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.zone{background:var(--bg);padding:16px 18px;display:grid;gap:6px;align-content:start}
+.zone .range{font-family:var(--head);font-size:1.6rem;font-weight:600;line-height:1}
+
+/* flow */
+.flow{display:grid;gap:0}
+.step{border:1px solid var(--line);padding:14px 18px;background:var(--panel);display:grid;gap:4px}
+.step .label{font-size:.68rem}
+.step.q{border-color:var(--white)}
+.step.ok{border-left:3px solid var(--green)}
+.step.no{border-left:3px solid var(--red)}
+.step.cap{border-left:3px solid var(--amber)}
+.link{height:22px;margin-left:24px;border-left:1px solid var(--dim);display:flex;align-items:center;padding-left:10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.fork{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0 24px}
+.fork>div{display:grid;align-content:start;min-width:0}
+
+/* calculators */
+.console{border:1px solid var(--line);background:var(--panel);padding:20px;display:grid;gap:16px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:14px}
+label{display:grid;gap:6px;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+input,select{font-family:var(--mono);font-size:1rem;color:var(--white);background:var(--bg);border:1px solid var(--dim);border-radius:0;padding:10px 12px;width:100%;min-width:0}
+input:focus-visible,select:focus-visible{outline:none;border-color:var(--white)}
+.readout{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;border-top:1px solid var(--line);padding-top:14px}
+.readout .big{font-family:var(--head);font-size:3rem;font-weight:600;line-height:1;color:var(--white)}
+.readout p{font-size:.92rem;color:var(--muted);flex:1 1 240px;min-width:0}
+
+/* semesters */
+.sems{display:grid;gap:10px}
+.semrow{display:grid;grid-template-columns:44px 1fr 36px;gap:12px;align-items:center}
+.semrow .track{display:flex;height:10px;gap:3px}
+.semrow .t{background:var(--white)}
+.semrow .l{background:var(--muted)}
+
+/* course code */
+.code{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);width:fit-content;max-width:100%}
+.code div{display:grid;gap:6px;padding:14px 18px;border-right:1px solid var(--line);min-width:0}
+.code div:last-child{border-right:0}
+.code b{font-family:var(--head);font-size:2.4rem;font-weight:600;line-height:1}
+.code span{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);max-width:14ch;line-height:1.4}
+
+footer{padding-top:32px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+@media (max-width:520px){
+  .readout .big{font-size:2.4rem}
+  .code div{padding:12px}
+  .code b{font-size:1.9rem}
+}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="label">Dept. of CSE / University of Chittagong / Sessions 2024-25 and 2025-26</div>
+  <h1>B.Sc. Engg. in CSE <span>Rules of the program</span></h1>
+  <p>Grades, marks, promotion, retakes, improvement and degree requirements from Chapter 2 of the information booklet, laid out so you can find an answer fast. For anything unclear, the booklet says to ask the CSE department office.</p>
+  <div class="telemetry">
+    <div><span class="label">Total credits</span><b class="num">160</b><span class="small">40 units, 4000 marks</span></div>
+    <div><span class="label">Semesters</span><b class="num">8</b><span class="small">over 4 academic years</span></div>
+    <div><span class="label">Promotion GPA</span><b class="num">2.00</b><span class="small">each semester</span></div>
+    <div><span class="label">Degree CGPA</span><b class="num">2.25</b><span class="small">minimum final</span></div>
+    <div><span class="label">Time limit</span><b class="num">6 YRS</b><span class="small">from first admission</span></div>
+  </div>
+  <nav class="nav" aria-label="Sections">
+    <a href="#grades">Grades</a><a href="#marks">Marks</a><a href="#attendance">Attendance</a><a href="#promotion">Promotion</a><a href="#retake">Retake</a><a href="#improve">Improvement</a><a href="#degree">Degree</a><a href="#dropout">Drop-out</a><a href="#credits">Credits</a><a href="#exams">Exams</a>
+  </nav>
+</header>
+
+<!-- GRADES -->
+<section id="grades">
+  <div class="sec-head"><span class="label">01 / Table 2.2</span><h2>Grading scale</h2></div>
+  <div class="chart-scroll">
+    <div class="gchart">
+      <div class="gplot" id="gplot"></div>
+      <div class="gaxis" id="gaxis"></div>
+    </div>
+  </div>
+  <div class="keyrow">
+    <span class="key"><i style="background:var(--bar)"></i>Grade point, reachable by a retake</span>
+    <span class="key"><i style="background:var(--amber)"></i>Above B: a retake can never record these</span>
+    <span class="key"><i style="background:var(--red)"></i>Fail, no credit</span>
+  </div>
+  <div class="cols">
+    <ul class="list">
+      <li><b>D (2.00) is the minimum pass.</b> D or higher earns the course credits.</li>
+      <li><b>F</b> (below 40%) and <b>I</b> (incomplete) are worth 0.00. Both count in your GPA and stay on the transcript for good.</li>
+      <li>Absent from a final you were due to sit counts as <b>zero marks, F</b>.</li>
+    </ul>
+    <div class="stackv">
+      <div class="formula">GPA&nbsp;&nbsp;= sum(credits x grade point) / total credits<br>CGPA = the same, over every course in semesters 1 to 8</div>
+      <p class="small">Semester GPA uses normal rounding. The <b>final CGPA always rounds up</b> when the 3rd or 4th decimal is non-zero. Example: 3.4510 becomes <span class="num">3.46</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARKS -->
+<section id="marks">
+  <div class="sec-head"><span class="label">02 / Section 2.2</span><h2>Where the marks come from</h2></div>
+  <div class="cols">
+    <div class="stackv" style="gap:28px">
+      <div class="split">
+        <h3>Theory course</h3>
+        <div class="bar"><div class="c1" style="width:10%"></div><div class="c2" style="width:18%"></div><div class="c3" style="width:72%"></div></div>
+        <div class="parts">
+          <div class="part"><i class="c1"></i><span>Attendance and participation</span><span class="num">10%</span></div>
+          <div class="part"><i class="c2"></i><span>Class tests</span><span class="num">18%</span></div>
+          <div class="part"><i class="c3"></i><span>Semester final exam</span><span class="num">72%</span></div>
+        </div>
+      </div>
+      <div class="split">
+        <h3>Lab / field work</h3>
+        <div class="bar"><div class="c1" style="width:10%"></div><div class="c2" style="width:40%"></div><div class="c3" style="width:50%"></div></div>
+        <div class="parts">
+          <div class="part"><i class="c1"></i><span>Attendance and participation</span><span class="num">10%</span></div>
+          <div class="part"><i class="c2"></i><span>Quizzes and/or viva-voce</span><span class="num">40%</span></div>
+          <div class="part"><i class="c3"></i><span>Practical, design work, report</span><span class="num">50%</span></div>
+        </div>
+      </div>
+      <div class="split">
+        <h3>Project / thesis</h3>
+        <div class="bar"><div class="c1" style="width:35%"></div><div class="c2" style="width:35%"></div><div class="c3" style="width:30%"></div></div>
+        <div class="parts">
+          <div class="part"><i class="c1"></i><span>Supervisor (internal examiner)</span><span class="num">35%</span></div>
+          <div class="part"><i class="c2"></i><span>External examiner</span><span class="num">35%</span></div>
+          <div class="part"><i class="c3"></i><span>Presentation and oral exam</span><span class="num">30%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="stackv" style="gap:28px">
+      <div class="stackv">
+        <h3>Attendance marks, per 100-mark unit</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>Attendance</th><th class="r">Marks</th></tr></thead>
+          <tbody>
+            <tr><td class="num">90% and above</td><td class="num r">10</td></tr>
+            <tr><td class="num">85% to under 90%</td><td class="num r">9</td></tr>
+            <tr><td class="num">80% to under 85%</td><td class="num r">8</td></tr>
+            <tr><td class="num">75% to under 80%</td><td class="num r">7</td></tr>
+            <tr><td class="num">70% to under 75%</td><td class="num r">6</td></tr>
+            <tr><td class="num">under 70%</td><td class="num r">0</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="stackv">
+        <h3>Class tests (theory)</h3>
+        <ul class="list">
+          <li>Course of 2 credits or less: at least <b>3</b> tests, <b>best 2</b> count.</li>
+          <li>Course over 2 credits: at least <b>4</b> tests, <b>best 3</b> count.</li>
+          <li>Test dates are announced within the first 2 weeks of classes.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATTENDANCE -->
+<section id="attendance">
+  <div class="sec-head"><span class="label">03 / Section 2.1</span><h2>Can I sit the final?</h2></div>
+  <div class="gauge" aria-hidden="true">
+    <div class="bar"><div style="flex:60;background:var(--red)"></div><div style="flex:10;background:var(--amber)"></div><div style="flex:30;background:var(--green)"></div></div>
+    <div class="scale"><span style="flex:60">0%</span><span style="flex:10">60%</span><span style="flex:30">70%</span><span>100%</span></div>
+  </div>
+  <div class="zones">
+    <div class="zone"><span class="label green">Regular</span><span class="range num">70% +</span><p class="small">Sit the final as a regular candidate.</p></div>
+    <div class="zone"><span class="label amber">Non-collegiate</span><span class="range num">60 to 69%</span><p class="small">You may sit, but pay an extra fine and lose any scholarship or stipend.</p></div>
+    <div class="zone"><span class="label red">Barred</span><span class="range num">Under 60%</span><p class="small">Not allowed to sit. Your name is struck off and you must apply for readmission.</p></div>
+  </div>
+</section>
+
+<!-- PROMOTION -->
+<section id="promotion">
+  <div class="sec-head"><span class="label">04 / Sections 2.4 and 2.6</span><h2>Promotion, semester by semester</h2></div>
+  <div class="flow">
+    <div class="step q"><span class="label">Results published</span><b>Is your semester GPA 2.00 or higher?</b></div>
+    <div class="fork">
+      <div>
+        <div class="link">Yes</div>
+        <div class="step ok"><span class="label green">Promoted</span>You move to the next semester. Any F still counts in your GPA.</div>
+        <div class="link"></div>
+        <div class="step cap"><span class="label amber">Promoted with an F?</span>You can still sit improvement for any course below B, in any semester, with the next batch. The recorded grade is capped at <b>B</b>.</div>
+      </div>
+      <div>
+        <div class="link">No</div>
+        <div class="step no"><span class="label red">Failed student</span>Retake with the <b>next batch</b> as an irregular candidate.</div>
+        <div class="link"></div>
+        <div class="step cap"><span class="label amber">Retake rules</span>Courses where you got <b>D or better are exempted</b> and keep their grade. Courses you resit are capped at <b>B</b>.</div>
+        <div class="link">GPA 2.00 now?</div>
+        <div class="step ok"><span class="label green">Yes</span>Provisionally admitted to the next semester.</div>
+        <div class="link"></div>
+        <div class="step no"><span class="label red">No, or you skip it</span>Dropped out of the program.</div>
+      </div>
+    </div>
+  </div>
+  <div class="callout"><span class="label">Semester 8</span>A GPA under 2.00 in semester 8 also makes you a failed student. You get one more try with the next batch, still inside the 6-year limit.</div>
+</section>
+
+<!-- RETAKE -->
+<section id="retake">
+  <div class="sec-head"><span class="label">05 / Section 2.4, backlog and improvement</span><h2>Retakes and the B ceiling</h2></div>
+  <div class="cols">
+    <ul class="list">
+      <li><b>Who:</b> anyone who failed a course or skipped the exam after paying fees. A student who failed a course, promoted or not, can also improve any course below B, in any semester.</li>
+      <li><b>When:</b> only with the immediately following odd or even semester batch.</li>
+      <li><b>What:</b> you resit the final exam only. <b>Your old class test and attendance marks are kept.</b></li>
+      <li><b>Ceiling:</b> the recorded grade is <b class="amber">B (3.00) at most</b>, whatever you score. The grade sheet is marked <i>improved</i>, or <i>irregular</i> for a failed student.</li>
+      <li><b>No downside:</b> if the retake grade is worse, your old grade stays. If the new grades don't raise your GPA, the old GPA stays.</li>
+      <li><b>Labs:</b> a failed or missed lab can be retaken <b>once</b>, with the next batch and Academic Committee permission. Otherwise F is recorded.</li>
+    </ul>
+    <div class="stackv">
+      <h3>Best case from one retake</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Grade now</th><th>Best recorded</th><th class="r">Gain</th></tr></thead>
+        <tbody>
+          <tr><td class="red">F &nbsp;0.00</td><td class="amber">B &nbsp;3.00</td><td class="num r">+3.00</td></tr>
+          <tr><td>D &nbsp;2.00</td><td class="amber">B &nbsp;3.00</td><td class="num r">+1.00</td></tr>
+          <tr><td>C &nbsp;2.25</td><td class="amber">B &nbsp;3.00</td><td class="num r">+0.75</td></tr>
+          <tr><td>C+ 2.50</td><td class="amber">B &nbsp;3.00</td><td class="num r">+0.50</td></tr>
+          <tr><td>B- 2.75</td><td class="amber">B &nbsp;3.00</td><td class="num r">+0.25</td></tr>
+          <tr><td>B or above</td><td class="small">Not eligible</td><td class="num r">0</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="sec-head"><span class="label">Calculator, theory course</span><h3>What would a retake record?</h3></div>
+    <div class="fields">
+      <label for="oldg">Grade you have now<select id="oldg"></select></label>
+      <label for="cta">Kept CT + attendance (of 28)<input id="cta" type="number" min="0" max="28" step="0.5" value="18"></label>
+      <label for="fin">New final exam (of 72)<input id="fin" type="number" min="0" max="72" step="0.5" value="50"></label>
+    </div>
+    <div class="readout" aria-live="polite">
+      <span class="big" id="rgrade">B</span>
+      <p id="rtext"></p>
+    </div>
+    <p class="label" style="color:var(--dim)">Example values. Uses the 10 / 18 / 72 split and the Table 2.2 cut-offs.</p>
+  </div>
+
+</section>
+
+<!-- IMPROVEMENT -->
+<section id="improve">
+  <div class="sec-head"><span class="label">06 / Section 2.6</span><h2>Improving CGPA after graduating</h2></div>
+  <div class="cols">
+    <ul class="list ok">
+      <li>Only <b>semester 7 and 8</b> courses where you got <b>below B</b>.</li>
+      <li><b>Once only</b>, with the immediately next batch.</li>
+      <li>Within <b>6 years</b> of your first admission session.</li>
+      <li>The same B (3.00) ceiling applies to each course.</li>
+    </ul>
+    <ul class="list">
+      <li>Your transcript and certificate show <i>improvement</i> and the exam year.</li>
+      <li>If the new grades don't raise your CGPA, the old result stays.</li>
+      <li>You can apply, with a fee, to cancel the improved CGPA and restore the old one. The application goes through the Chairman and your hall provost to the Controller of Examinations.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- DEGREE -->
+<section id="degree">
+  <div class="sec-head"><span class="label">07 / Section 2.5</span><h2>Degree requirements</h2></div>
+  <div class="cols">
+    <ul class="list ok">
+      <li><b>Final CGPA of 2.25 or higher</b></li>
+      <li><b>At least 154 of the 160 credits earned.</b> A course earns its credits at grade D or above.</li>
+      <li><b>Every core course passed</b></li>
+      <li>All semesters finished within <b>6 academic years</b></li>
+      <li>Any industrial or professional training the department requires (CSE 710 Industrial Training sits in semester 7)</li>
+    </ul>
+    <div class="console">
+      <div class="sec-head"><span class="label">Converter</span><h3>CGPA to percentage</h3></div>
+      <label for="cg">Your CGPA (2.25 to 4.00)<input id="cg" type="number" min="2.25" max="4" step="0.01" value="3.50"></label>
+      <div class="readout" aria-live="polite"><span class="big" id="pct">--</span><p>Equivalent marks, using the booklet's formula</p></div>
+      <div class="formula">CGPA up to 3.75: &nbsp;Y = 44 + 20 (X - 2)<br>CGPA above 3.75: Y = 79 + 84 (X - 3.75)</div>
+    </div>
+  </div>
+  <p class="small" style="max-width:75ch">The transcript lists each course with credits, letter grade, grade point and credit points, plus each semester's GPA and the final CGPA with its letter grade. Scholarships and stipends are ranked by the GPA from the year's semester finals.</p>
+</section>
+
+<!-- DROPOUT -->
+<section id="dropout">
+  <div class="sec-head"><span class="label">08 / Sections 2.3 and 2.6</span><h2>Struck off or dropped out</h2></div>
+  <div class="cols">
+    <div class="stackv">
+      <h3 class="red">Dropped out, permanently</h3>
+      <ul class="list no">
+        <li>Missing the 2.00 GPA, then failing again in the retake, or not taking it.</li>
+        <li>Missing the exam <b>twice in one semester</b>, or <b>more than twice</b> across the program.</li>
+        <li>Going past the <b>6-year</b> limit.</li>
+      </ul>
+    </div>
+    <div class="stackv">
+      <h3 class="amber">Name struck off, readmission possible</h3>
+      <ul class="list">
+        <li>Unpaid fees, or missing the final for low attendance: readmit with the next batch.</li>
+        <li>GPA under 2.00, or skipping an exam after paying fees: readmit before the next semester with the next batch.</li>
+        <li>Disciplinary removal: apply once the suspension ends.</li>
+        <li>Apply <b>within 1 academic year</b>. Attendance is counted from the readmission date.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CREDITS -->
+<section id="credits">
+  <div class="sec-head"><span class="label">09 / Section 3.4</span><h2>Credits by semester</h2></div>
+  <div class="keyrow">
+    <span class="key"><i style="background:var(--white)"></i>Theory (code ends in an odd digit)</span>
+    <span class="key"><i style="background:var(--muted)"></i>Lab, project, thesis (even digit)</span>
+  </div>
+  <div class="sems" id="sems"></div>
+  <p class="small" style="max-width:75ch"><b class="num">115</b> theory + <b class="num">45</b> lab = <b class="num">160</b> credits. A 3-credit theory course meets 3 hours a week. A 1-credit lab meets 2 hours a week. Options I to III in semesters 6 to 8 are electives. CSE-coded courses are core.</p>
+</section>
+
+<!-- EXAMS -->
+<section id="exams">
+  <div class="sec-head"><span class="label">10 / Sections 2.1 and 2.4</span><h2>Exam format and course codes</h2></div>
+  <div class="code" aria-label="Course code CSE 113 explained">
+    <div><b>CSE</b><span>Offering department</span></div>
+    <div><b>1</b><span>Semester normally taken</span></div>
+    <div><b>1</b><span>Area within the dept.</span></div>
+    <div><b>3</b><span>Odd: theory. Even: lab</span></div>
+  </div>
+  <div class="cols">
+    <ul class="list">
+      <li>The final paper has <b>Section A and Section B</b>, each marked by a different examiner. Use a separate answer script for each.</li>
+      <li>Answer <b>3 of 4</b> questions in each section.</li>
+      <li>Length: <b>3 hours</b> for courses of 2 credits or less, <b>4 hours</b> for courses over 2 and up to 4 credits.</li>
+      <li>All answers are written in English.</li>
+    </ul>
+    <ul class="list">
+      <li>Results come out within about <b>4 weeks</b> of the last final.</li>
+      <li>Scripts are never shown or re-marked. You can apply for <b>re-scrutiny</b> (addition errors, unmarked answers) with a fee within <b>15 days</b> of results.</li>
+      <li>Register your courses within <b>10 days</b> of the semester starting.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Summarised from the CU CSE B.Sc. Engg. information booklet, sessions 2024-25 and 2025-26. The booklet and the department office are the final authority.</footer>
+</div>
+
+<script>
+const GRADES=[
+  {lg:"F",gp:0,min:0,range:"0-39"},
+  {lg:"D",gp:2.00,min:40,range:"40-44"},
+  {lg:"C",gp:2.25,min:45,range:"45-49"},
+  {lg:"C+",gp:2.50,min:50,range:"50-54"},
+  {lg:"B-",gp:2.75,min:55,range:"55-59"},
+  {lg:"B",gp:3.00,min:60,range:"60-64"},
+  {lg:"B+",gp:3.25,min:65,range:"65-69"},
+  {lg:"A-",gp:3.50,min:70,range:"70-74"},
+  {lg:"A",gp:3.75,min:75,range:"75-79"},
+  {lg:"A+",gp:4.00,min:80,range:"80-100"}
+];
+// Bars are scaled to 4.00 = 85% of plot height, leaving headroom for value labels.
+const plot=document.getElementById("gplot"), axis=document.getElementById("gaxis");
+const H=0.85;
+[1,2,3,4].forEach(v=>{const g=document.createElement("div");g.className="grid";g.style.bottom=(v/4*H*100)+"%";plot.appendChild(g)});
+GRADES.forEach(g=>{
+  const b=document.createElement("div");
+  b.className="gbar"+(g.gp===0?" fail":g.gp>3?" capped":"");
+  if(g.gp>0)b.style.height=(g.gp/4*H*100)+"%";
+  b.innerHTML=`<span class="v">${g.gp.toFixed(2)}</span>`;
+  plot.appendChild(b);
+  const a=document.createElement("div");
+  a.innerHTML=`<b>${g.lg}</b><span>${g.range}%</span>`;axis.appendChild(a);
+});
+const cap=document.createElement("div");cap.className="capline";cap.style.bottom=(3/4*H*100)+"%";plot.appendChild(cap);
+
+// Retake calculator
+const sel=document.getElementById("oldg");
+GRADES.filter(g=>g.gp<3).forEach(g=>{const o=document.createElement("option");o.value=g.lg;o.textContent=`${g.lg}  (${g.gp.toFixed(2)})`;sel.appendChild(o)});
+sel.value="D";
+function gradeFor(p){let r=GRADES[0];for(const g of GRADES){if(p>=g.min)r=g}return r}
+function calc(){
+  const cta=Math.min(28,Math.max(0,parseFloat(document.getElementById("cta").value)||0));
+  const fin=Math.min(72,Math.max(0,parseFloat(document.getElementById("fin").value)||0));
+  const total=cta+fin, earned=gradeFor(total);
+  const old=GRADES.find(g=>g.lg===sel.value);
+  const capped=earned.gp>3?GRADES.find(g=>g.lg==="B"):earned;
+  const keep=capped.gp<=old.gp, rec=keep?old:capped;
+  document.getElementById("rgrade").textContent=rec.lg;
+  let msg=`Total ${total.toFixed(1)}%, which earns ${earned.lg} (${earned.gp.toFixed(2)}). `;
+  if(earned.gp>3)msg+=`Capped to B. `;
+  msg+=keep?`That is not better than your ${old.lg}, so ${old.lg} stays.`:`Recorded as ${rec.lg} (${rec.gp.toFixed(2)}), a gain of ${(rec.gp-old.gp).toFixed(2)} grade points.`;
+  document.getElementById("rtext").textContent=msg;
+}
+["oldg","cta","fin"].forEach(id=>document.getElementById(id).addEventListener("input",calc));calc();
+
+// CGPA to percentage
+function pct(){
+  const x=parseFloat(document.getElementById("cg").value), o=document.getElementById("pct");
+  if(isNaN(x)||x<2.25||x>4){o.textContent="--";return}
+  o.textContent=(x>3.75?79+84*(x-3.75):44+20*(x-2)).toFixed(1)+"%";
+}
+document.getElementById("cg").addEventListener("input",pct);pct();
+
+// Semester credits (bar width relative to 21, the largest semester)
+const SEM=[[15,5],[18,3],[16,5],[15,6],[15,6],[12,7],[12,6],[12,7]];
+const sems=document.getElementById("sems");
+SEM.forEach(([t,l],i)=>{
+  const r=document.createElement("div");r.className="semrow";
+  r.innerHTML=`<span class="label">Sem ${i+1}</span><div class="track" title="${t} theory + ${l} lab"><div class="t" style="width:${t/21*100}%"></div><div class="l" style="width:${l/21*100}%"></div></div><span class="num" style="text-align:right">${t+l}</span>`;
+  sems.appendChild(r);
+});
+</script>

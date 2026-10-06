@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Grading, marks split, promotion, retake and improvement rules, and degree requirements for B.Sc. Engg. in CSE at the University of Chittagong.">
+<meta name="theme-color" content="#000000">
 <title>CU CSE Rulebook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +22,10 @@
   --mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
 }
 *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;overflow-wrap:break-word}
+img{max-width:100%}
+[hidden]{display:none!important}
 html{background:var(--bg)}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;font-weight:400;line-height:1.6;padding-inline:16px;padding-block:0 64px}
 a{color:inherit}
@@ -147,11 +158,15 @@ input:focus-visible,select:focus-visible{outline:none;border-color:var(--white)}
 
 footer{padding-top:32px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 @media (max-width:520px){
+  .telemetry{grid-template-columns:1fr 1fr}
+  .telemetry div:last-child{grid-column:1 / -1}
   .readout .big{font-size:2.4rem}
   .code div{padding:12px}
   .code b{font-size:1.9rem}
 }
 </style>
+</head>
+<body>
 
 <div class="wrap">
 
@@ -509,3 +524,5 @@ SEM.forEach(([t,l],i)=>{
   sems.appendChild(r);
 });
 </script>
+</body>
+</html>
